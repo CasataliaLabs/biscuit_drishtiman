@@ -14,10 +14,10 @@ def VideoPlot():
     #canvas1.get_tk_widget().place(x=10, y=10)
 
 
-def GraphPlot():
+#def GraphPlot():
     global gray1, values, meanValue
 
-    gray2 = cv2.cvtColor(video.read(0)[1], cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     difference = abs(gray1 - gray2)
     meanValue = numpy.mean(difference)
     gray1 = gray2
@@ -25,14 +25,14 @@ def GraphPlot():
     values.remove(values[0])
     changeInXAxis = pylab.arange(len(values)-100, len(values), 1)
     plotGraph[0].set_data(changeInXAxis, pylab.array(values[-100:]))
-    axis2.axis([changeInXAxis.min(), changeInXAxis.max()+1, 0, 255])
+   # axis2.axis([changeInXAxis.min(), changeInXAxis.max()+1, 0, 255])
     canvas2.show()
     #canvas2.get_tk_widget().place(x=430, y=10)
 
 
 def TablePlot():
     tableValues=[['Mean frame', ' ', ' '], [meanValue, '', ''], ['', '', '']]
-    table1 = axis3.table(cellText=tableValues, colWidths=[0.1]*3, loc='center right')
+    table1 = axis3.table(cellText=tableValues, colWidths=[0.1]*3, loc='center')
     table1.set_fontsize(30)
     table1.scale(3, 2)
     canvas3.show()
@@ -98,4 +98,4 @@ button1 = Button(window, text='Start', fg='green', command=StartButton).place(x=
 button2 = Button(window, text='Stop', fg='red', command=StopButton).place(x=500, y=500)
 button3 = Button(window, text='Quit', fg='black', bg='red', command=QuitButton).place(x=500, y=550)
 
-window.mainloop()
+#~ window.mainloop()
