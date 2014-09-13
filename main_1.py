@@ -15,7 +15,7 @@ def VideoPlot():
 
 
 def GraphPlot():
-    global gray1, values, meanValue
+    global gray1, values, meanValue, xAxis
 
     gray2 = cv2.cvtColor(video.read(0)[1], cv2.COLOR_BGR2GRAY)
     difference = abs(gray1 - gray2)
@@ -23,9 +23,9 @@ def GraphPlot():
     gray1 = gray2
     values.append(meanValue)
     values.remove(values[0])
-    changeInXAxis = pylab.arange(len(values)-100, len(values), 1)
-    plotGraph[0].set_data(changeInXAxis, pylab.array(values[-100:]))
-    axis2.axis([changeInXAxis.min(), changeInXAxis.max()+1, 0, 255])
+    # changeInXAxis = pylab.arange(len(values)-100, len(values), 1)
+    plotGraph[0].set_data(xAxis, pylab.array(values[-100:]))
+    # axis2.axis([changeInXAxis.min(), changeInXAxis.max()+1, 0, 255])
     canvas2.show()
     #canvas2.get_tk_widget().place(x=430, y=10)
 
