@@ -5,22 +5,6 @@ from Tkinter import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-cap = cv2.VideoCapture(0)
-ret, frame = cap.read()
-window = Tk()
-window.geometry('500x500')
-videoFigure = Figure(figsize=(5, 4), dpi=80)
-axis1 = videoFigure.add_subplot(111)
-axis1.set_title('Video frame')
-canvas1 = FigureCanvasTkAgg(videoFigure, master=window)
-widget=canvas1.get_tk_widget().place(x=10, y=10)
-axis1.imshow(frame)
-
-#initializing variables
-count=0
-red_sum=0
-green_sum=0
-blue_sum=0
 #performing 10 clicks
 def click(event):
 	global count,red_sum,green_sum,blue_sum
@@ -40,6 +24,24 @@ def click(event):
 		print 'Mean of blue pixels= ',blue_sum/10
 		exit()
 		
+cap = cv2.VideoCapture(0)
+ret, frame = cap.read()
+window = Tk()
+window.geometry('500x500')
+videoFigure = Figure(figsize=(5, 4), dpi=80)
+axis1 = videoFigure.add_subplot(111)
+axis1.set_title('Video frame')
+canvas1 = FigureCanvasTkAgg(videoFigure, master=window)
+widget=canvas1.get_tk_widget().place(x=10, y=10)
+axis1.imshow(frame)
+
+#initializing variables
+count=0
+red_sum=0
+green_sum=0
+blue_sum=0
+
+		
 	
 canvas1.mpl_connect('button_press_event', click)
 window.mainloop()
@@ -48,7 +50,7 @@ cv2.destroyAllWindows()
 
 
 
-
+'''
 
 import cv2
 import numpy
@@ -93,7 +95,4 @@ window.mainloop()
 cap.release()
 cv2.destroyAllWindows()
 
-
-
-
-
+'''
