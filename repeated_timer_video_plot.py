@@ -12,7 +12,7 @@ class RepeatedTimer(object):
 
     def _run(self):
         self.function(*self.args, **self.kwargs)
-        self.start()
+        #~ self.start()
 
     def start(self):
         self._timer = Timer(self.interval, self._run)
