@@ -19,9 +19,9 @@ class repeatedTimer(object):
         self.start()
         
     def start(self):
-        if not self.is_running:
-            self._timer = Timer(self.interval, self._run)
-            self._timer.start()
+        #if not self.is_running:
+		self._timer = Timer(self.interval, self._run)
+		self._timer.start()
           #  self.is_running = True
 
     def stop(self):
