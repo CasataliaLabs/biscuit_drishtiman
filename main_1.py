@@ -13,7 +13,7 @@ from matplotlib.figure import Figure
 def VideoPlot():
     frame = video.read(0)[1]
     axes1.imshow(frame)
-    canvas1.show()
+    canvas1.draw()
     #canvas1.get_tk_widget().place(x=10, y=10)
 
 # Function for display graph
@@ -29,7 +29,7 @@ def GraphPlot():
     # changeInXAxis = pylab.arange(len(values)-100, len(values), 1)
     plotGraph[0].set_data(xAxis, pylab.array(values[-100:]))
     # axis2.axis([changeInXAxis.min(), changeInXAxis.max()+1, 0, 255])
-    canvas2.show()
+    canvas2.draw()
     #canvas2.get_tk_widget().place(x=430, y=10)
 
 # Function for display table
@@ -39,7 +39,7 @@ def TablePlot():
     table1 = axes3.table(cellText=tableValues, colWidths=[0.1]*3, loc='center right')
     table1.set_fontsize(30)
     table1.scale(3, 2)
-    canvas3.show()
+    canvas3.draw()
     #canvas3.get_tk_widget().place(x=10, y=350)
 '======================================================================='
 '======================================================================='
