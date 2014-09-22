@@ -47,7 +47,7 @@ def TablePlot():
 # Start Button
 def StartButton():
     global timer1, timer2, timer3, status
-    #timer1.start()
+    timer1.start()
     timer2.start()
     timer3.start()
     status = 'running'
