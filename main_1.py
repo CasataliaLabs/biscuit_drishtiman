@@ -119,8 +119,8 @@ button1 = Button(window, text='Start', fg='green', command=StartButton).place(x=
 button2 = Button(window, text='Stop', fg='red', command=StopButton).place(x=500, y=500)
 button3 = Button(window, text='Quit', fg='black', bg='red', command=QuitButton).place(x=500, y=550)
 # Create timers
-timer1 = repeatedTimer(.1, GraphPlot)
-timer2 = repeatedTimer(.1, VideoPlot)
+timer1 = repeatedTimer(.1, VideoPlot)
+timer2 = repeatedTimer(.1, GraphPlot)
 timer3 = repeatedTimer(.1, TablePlot)
 
 # main loop
