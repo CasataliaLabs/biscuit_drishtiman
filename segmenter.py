@@ -31,11 +31,11 @@ frame_dup = numpy.ones(frame.shape)
 def click(event):
 	global count,red,green,blue
 	print '\nClicked at: x=',event.x,'  y=', event.y
-	Red,Green,Blue=frame1[event.x,event.y]
+	Red,Green,Blue=frame[event.x,event.y]
 	red.append(Red)
 	green.append(Green)
 	blue.append(Blue)
-	Red,Green,Blue=frame1[event.x,event.y]
+	Red,Green,Blue=frame[event.x,event.y]
 	print Red, Green, Blue
 	count=count+1
 	if count==10:
@@ -45,7 +45,7 @@ def click(event):
 
 canvas1.mpl_connect('button_press_event', click)
 
-cap.release()
+video.release()
 cv2.destroyAllWindows()
 window.mainloop()
 
