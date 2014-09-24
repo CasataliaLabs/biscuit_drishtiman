@@ -42,7 +42,7 @@ def click(event):
 	print Red, Green, Blue
 	count=count+1
 	print count
-	if count>5:
+	if count>15:
 		print count
 		threshArray = numpy.array([numpy.mean(red), numpy.mean(green),numpy.mean(blue), frameShape[0],frameShape[1], frameShape[2]])
 		numpy.savetxt('Thresh.txt',threshArray,fmt="%s")
