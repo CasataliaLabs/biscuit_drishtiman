@@ -9,7 +9,7 @@ import matplotlib.pyplot as plot
 import time
 
 
-tol = 50
+tol = 60
 
 def VideoPlot():
 	tic = time.time()
@@ -33,8 +33,8 @@ def VideoPlot():
 	frameDuplicate[:,:,1]=frame[:,:,1]*frameDupBin
 	frameDuplicate[:,:,2]=frame[:,:,2]*frameDupBin
 	#~ axes1.imshow(frameDuplicate)  #, plot.get_cmap('gray'))
-	
-	showFrame.set_array(frameDuplicate)  #, plot.get_cmap('gray'))
+	#~ frameDuplicate = plot.get_cmap('gray')
+	showFrame.set_array(frameDuplicate)
 	canvas1.draw()
 	toc = time.time()
 	print (toc -tic)
@@ -48,9 +48,9 @@ def StopButton():
 	timer1.stop()
 	
 def QuitButton():
-    video.release()
-    print 'quit'
-    quit()
+	video.release()
+	print 'quit'
+	quit()
 
 thresh = numpy.loadtxt('Thresh.txt')
 redMean, greenMean, blueMean, length, width,color = thresh
@@ -68,7 +68,7 @@ window.title('Test gui')
 videoFigure = Figure(figsize=(8, 8), dpi=80)
 axes1 = videoFigure.add_subplot(111)
 axes1.set_title('Video frame')
-video.open(0)
+#~ video.open(0)
 ret, frame = video.read(0)
 showFrame = axes1.imshow(frame)
 # Make a canvas on VideoFigure
