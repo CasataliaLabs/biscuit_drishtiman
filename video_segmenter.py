@@ -4,16 +4,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 from Tkinter import *
-#~ from repeated_timer1 import RepeatedTimer
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from tkintertable.Tables import TableCanvas
 from tkintertable.TableModels import TableModel
 import time
 import sys
+import matplotlib.cm as cm
 plt.ion()
-
-tol =	70
+tol =	50
 #Function for starting timers
 def StartButton():
     timerFrameDisplay.start()
@@ -24,43 +23,42 @@ def StopButton():
     
 def QuitButton():
 	video.release()
-	print 'quit'
-	sys.exit(0)
+	print 'no quit \n please close'
+	#~ sys.exit(0)
 
 #Function to display video frame,mean of frame variations,display in a table
 def showFrame(hImshow):
 	tic = time.time()
-	global frameDup1,frameDup2, redMin, redMax, greenMin, greenMax, blueMin, blueMax #, axes1, canvas1
-	ret,frame = video.read(0)
+	global frameDup, thresh
+	frameDup1 = frameDup2 = frameDup
+	ret,frame = video.read()
 	if ret == None:
 		print "reading from cam failed"
 		return
-	frameDup1[:,:,0] = (frame[:,:,0] <= redMax)
-	frameDup2[:,:,0] = (frame[:,:,0] >= redMin)
-	frameBin1 = frameDup1[:,:,0]*frameDup2[:,:,0]
-	#~ frameBin1 = frameBin1==0
-	frameDup1[:,:,1] = (frame[:,:,1] <= greenMax)
-	frameDup2[:,:,1] = (frame[:,:,1] >= greenMin)
-	frameBin2 = frameDup1[:,:,1]*frameDup2[:,:,1]
-	#~ frameBin2 = frameBin2==0
-	frameDup1[:,:,2] = (frame[:,:,2] <= blueMax)
-	frameDup2[:,:,2] = (frame[:,:,2] >= blueMin) 
-	frameBin3 = frameDup1[:,:,2]*frameDup2[:,:,2]
-	#~ frameBin3 = frameBin3==0
-	frameDupBin = frameBin1*frameBin2*frameBin3
 	frameDuplicate = frame
-	frameDuplicate[:,:,0]=frame[:,:,0]*frameDupBin
-	frameDuplicate[:,:,1]=frame[:,:,1]*frameDupBin
-	frameDuplicate[:,:,2]=frame[:,:,2]*frameDupBin
-	#~ axes1.imshow(frameDuplicate)  #, plot.get_cmap('gray'))
-	#~ frameDuplicate = plot.get_cmap('gray')
-	#~ axes1.clear()
-	#~ showFrame = axes1.imshow(frame)
-	hImshow.set_array(frame) #[:,:,2])
-	#~ axes1.figure.canvas.show()
+	for i in range(0,3):
+		frameDup1[:,:,i] = (frame[:,:,i] <= thresh[i]+tol)
+		frameDup2[:,:,i] = (frame[:,:,i] >= thresh[i]-tol)
+		frameDup[:,:,i] = frameDup1[:,:,i]*frameDup2[:,:,i]
+	frameMask = frameDup[:,:,0]*frameDup[:,:,1]*frameDup[:,:,2]
+	frameDuplicate[:,:,0]=frame[:,:,0]*frameMask
+	frameDuplicate[:,:,1]=frame[:,:,1]*frameMask
+	frameDuplicate[:,:,2]=frame[:,:,2]*frameMask
+	hImshow.set_array(frameDuplicate)
 	canvas1.show()
 	toc = time.time()
-	print (toc - tic)
+	
+	data = {'1': {'Time': '{0:.3f}'.format(toc - tic)}}
+	model = table.model
+	model.importDict(data)
+	table.redrawTable()
+	#~ print (toc - tic)
+	
+print 'start'	
+guiMain = Tk()
+guiMain.geometry('850x7000')
+guiMain.title('biscuit_inspection') #how to set full screen
+print 'gui created'
 	
 	
 #Capturing video frame
@@ -73,38 +71,25 @@ while not video.isOpened():
 else:
 	print "video already open"
 ret, frame = video.read()
-
+print "frame acquired status", ret
 thresh = np.loadtxt('Thresh.txt')
 redMean, greenMean, blueMean, length, width,color = thresh
-redMin, redMax = redMean-tol, redMean+tol
-greenMin, greenMax = greenMean-tol, greenMean+tol
-blueMin, blueMax = blueMean-tol, blueMean+tol
-
-print "frame acquired status", ret
-frameDup1 = np.zeros((length, width,color))
-frameDup2 = np.zeros((length, width,color))
-
-#Creating window with title and geometry
-guiMain = Tk()
-guiMain.geometry('850x7000')
-guiMain.title('biscuit_inspection') #how to set full screen
+frameDup = np.zeros((length, width,color))
 
 #Creating figure for showing video frame
-videoFigure = Figure(figsize=(4, 4), dpi=100)
+videoFigure = Figure(figsize=(5, 5))
 axes1 = videoFigure.add_subplot(111)
 videoFigure.suptitle("Live Video")
-hImshow = axes1.imshow(frame)
+hImshow = axes1.imshow(frame,cmap = cm.Greys_r, vmin=20, vmax=80)
 
-
-#Creating canvass for placing video frame
+#Creating canvass for placing videou frame
 canvas1 = FigureCanvasTkAgg(videoFigure, master=guiMain)
 canvas1.get_tk_widget().place(x=10, y=20)
 
-
-# table creation
+#~ # table creation
 frameValue = Frame(guiMain)
 frameValue.pack()
-frameValue.place(x=175, y=500, width=175, height=70)
+frameValue.place(x=100, y=500,width=300, height=70)
 model = TableModel()
 table = TableCanvas(frameValue, model=model, editable=False)
 table.createTableFrame()
