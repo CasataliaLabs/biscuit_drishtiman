@@ -15,7 +15,7 @@ hsvFrame = cv2.cvtColor(rgbFrame, cv2.COLOR_RGB2HSV)
 plt.imshow(rgbFrame[:,:,1])
 coordinates = []
 coordinates = np.floor(plt.ginput(n=5, timeout=30, show_clicks=True, mouse_add=1, mouse_pop=3, mouse_stop=2))
-xyCordinates = coordinates.astype('uint8')
+xyCordinates = coordinates.astype('int')
 
 hsvValues = hsvFrame[xyCordinates[:,0],xyCordinates[:,1]]
 hue,saturation = hsvValues[:,0],hsvValues[:,1]
