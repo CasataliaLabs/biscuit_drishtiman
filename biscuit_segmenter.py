@@ -1,3 +1,6 @@
+'''Biscuit Segmenter
+Authors: Neethu Joseph, Archana Bade, Subin George'''
+
 import cv2,sys,time
 import numpy as np
 from Tkinter import *
