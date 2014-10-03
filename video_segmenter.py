@@ -18,15 +18,35 @@ def QuitButton():
 	
 def showFrame(hImshow):
 	tic=time.time()
-	threshold = [2, 40, 100, 250]
-	hueMin, hueMax, saturationMin, saturationMax = threshold
+	thresholdForMask = [2, 40, 100, 250]
+	hueMin, hueMax, saturationMin, saturationMax = thresholdForMask
 	ret,frame = video.read()
-	frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+	hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+	rgbFrame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
 	minimumValue = np.array([hueMin, saturationMin, 0], np.uint8)
 	maximumValue = np.array([hueMax, saturationMax , 255], np.uint8)
-	biscuit = cv2.inRange(frameHSV, minimumValue, maximumValue)
+	biscuitMask = cv2.inRange(hsvFrame, minimumValue, maximumValue)
+	contour, hierarchy = cv2.findContours(biscuitMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+	parents = hierarchy[0,:,3]
+	noParents = parents == -1
+	indexOfNoParents = np.where(noParents ==True)[0]
+	areaOfContour = []
+	for itration in range(0,len(indexOfNoParents)):
+		areaOfContour.append(cv2.contourArea(contour[indexOfNoParents[itration]]))
+	areaOfContourMax = np.max(areaOfContour)
+	indexOfAreaOfContourMax = areaOfContour.index(areaOfContourMax)
+	for noParentsIndex in range(0,len(indexOfNoParents)):
+		if noParentsIndex == indexOfAreaOfContourMax:
+			biscuitContour = contour[indexOfNoParents[noParentsIndex]]
+			cv2.drawContours(biscuitMask,[biscuitContour],0,255,-1)
+		else:
+			biscuitContour = contour[indexOfNoParents[noParentsIndex]]
+			cv2.drawContours(biscuitMask,[biscuitContour],0,0,-1)
+	maskedFrame=np.zeros((frame.shape))
+	for color in range(0,3):
+		maskedFrame[:,:,color]=rgbFrame[:,:,color]*biscuitMask 
 	axes1.clear()
-	hImshow = axes1.imshow(biscuit, cmap = cm.Greys_r)
+	hImshow = axes1.imshow(maskedFrame, cmap = cm.Greys_r)
 	canvas1.show()
 	toc = time.time()
 	#~ print toc-tic
