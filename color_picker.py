@@ -1,10 +1,6 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from Tkinter import *
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-import time
 
 if not 'video' in locals():
 	video = cv2.VideoCapture(0)
@@ -26,4 +22,3 @@ hue,saturation = hsvValues[:,0],hsvValues[:,1]
 
 thresholdArray = np.array([np.min(hue), np.max(hue), np.min(saturation), np.max(saturation)])
 np.savetxt('Threshold.txt',thresholdArray,fmt="%s")
-print  thresholdArray
