@@ -1,3 +1,7 @@
+'''Colour picker For biscuit
+Authors: Neethu Joseph, Archana bade, Subin George'''
+
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
