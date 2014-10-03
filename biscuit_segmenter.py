@@ -45,13 +45,12 @@ def showFrame(hImshow):
 	maskedFrame=np.zeros((frame.shape))
 	for color in range(0,3):
 		maskedFrame[:,:,color]=rgbFrame[:,:,color]*biscuitMask 
-	axes1.clear()
-	hImshow = axes1.imshow(maskedFrame, cmap = cm.Greys_r)
-	canvas1.show()
+	axesForVideo.clear()
+	hImshow = axesForVideo.imshow(maskedFrame, cmap = cm.Greys_r)
+	canvasForCanvas.show()
 	toc = time.time()
 	#~ print toc-tic
 	
-video = cv2.VideoCapture()
 guiMain = Tk()
 guiMain.geometry('850x7000')
 guiMain.title('biscuit_inspection')
@@ -65,17 +64,15 @@ if ret == False:
 	print 'Check if camera is connected'
 	sys.exit() 
 
-ret, frame = video.read()
 frameRgb = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
 threshold = np.loadtxt('Threshold.txt')
 
 videoFigure = Figure(figsize=(5, 5))
-axes1 = videoFigure.add_subplot(111)
+axesForVideo = videoFigure.add_subplot(111)
 videoFigure.suptitle("Live Video")
-hImshow = axes1.imshow(frameRgb, cmap = cm.Greys)
-canvas1 = FigureCanvasTkAgg(videoFigure, master=guiMain)
-canvas1.get_tk_widget().place(x=10, y=20)
-
+hImshow = axesForVideo.imshow(frameRgb)
+canvasForVideo = FigureCanvasTkAgg(videoFigure, master=guiMain)
+canvasForVideo.get_tk_widget().place(x=10, y=20)
 
 #Timer for frame
 timerFrameDisplay = videoFigure.canvas.new_timer(interval=10)
