@@ -12,7 +12,6 @@ if ret == False:
 	sys.exit()
 rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 hsvFrame = cv2.cvtColor(rgbFrame, cv2.COLOR_RGB2HSV)
-plt.imshow(rgbFrame[:,:,1])
 coordinates = []
 coordinates = np.floor(plt.ginput(n=5, timeout=30, show_clicks=True, mouse_add=1, mouse_pop=3, mouse_stop=2))
 xyCordinates = coordinates.astype('int')
