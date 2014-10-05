@@ -1,5 +1,5 @@
 '''Biscuit Segmenter
-Authors: Neethu Joseph, Archana Bade, Subin George'''
+Authors: Subin George, Neethu Joseph, Archana Bade'''
 
 import cv2,sys,time
 import numpy as np
@@ -72,7 +72,7 @@ threshold = np.loadtxt('Threshold.txt')
 
 videoFigure = Figure(figsize=(5, 5))
 axesForVideo = videoFigure.add_subplot(111)
-videoFigure.suptitle("Live Video")
+videoFigure.suptitle("BISCUIT SEGMENTATION")
 hImshow = axesForVideo.imshow(frameRgb)
 canvasForVideo = FigureCanvasTkAgg(videoFigure, master=guiMain)
 canvasForVideo.get_tk_widget().place(x=10, y=20)
