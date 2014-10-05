@@ -1,5 +1,5 @@
 '''Colour picker For biscuit
-Authors: Neethu Joseph, Archana bade, Subin George'''
+Authors: Subin George, Neethu Joseph, Archana bade'''
 
 
 import cv2
