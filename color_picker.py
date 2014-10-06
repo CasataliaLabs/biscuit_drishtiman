@@ -5,6 +5,7 @@ Authors: Subin George, Neethu Joseph, Archana bade'''
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+plt.ion()
 
 if not 'video' in locals():
 	video = cv2.VideoCapture(0)
@@ -15,6 +16,7 @@ if ret == False:
 	print 'Check if camera is connected'
 	sys.exit()
 rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+plt.imshow(rgbFrame)
 hsvFrame = cv2.cvtColor(rgbFrame, cv2.COLOR_RGB2HSV)
 coordinates = []
 coordinates = np.floor(plt.ginput(n=5, timeout=30, show_clicks=True, mouse_add=1, mouse_pop=3, mouse_stop=2))
