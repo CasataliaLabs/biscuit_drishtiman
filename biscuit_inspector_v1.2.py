@@ -29,12 +29,12 @@ class BiscuitInspector():
         biscuitMask = cv2.inRange(hsvFrame, minimumValue, maximumValue)
         contour, hierarchy = cv2.findContours(biscuitMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
         if len(contour) == 0:
-            print 'error: contour not fount'
+            print 'error: contour not found'
             return None
         parents = hierarchy[0,:,3]
         noParents = parents == -1
         if len(noParents) == 0:
-            print 'error: biscuit not fount'
+            print 'error: biscuit not found'
             return None
         indexOfNoParents = np.where(noParents ==True)[0]
         areaOfContour = []
